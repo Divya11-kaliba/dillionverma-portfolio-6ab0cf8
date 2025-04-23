@@ -145,8 +145,9 @@ export default function Page() {
                   tags={project.technologies}
                   image={project.image}
                   video={project.video}
-                  links={project.links}
-                />
+                  links={project.links} 
+                  index={0} 
+                  totalProjects={0}                />
               </BlurFade>
             ))}
           </div>
@@ -188,7 +189,7 @@ export default function Page() {
                     dates={project.dates}
                     image={project.image}
                     links={project.links}
-                  />
+                    classname={""}                  />
                 </BlurFade>
               ))}
             </ul>

@@ -81,7 +81,7 @@ function Contact() {
         transition={{ duration: 4, ease: 'easeOut' }}
         className="bg-gray-300 dark:bg-gray-800 rounded-2xl shadow-lg shadow-gray-400/50 dark:shadow-gray-800/50 p-6"
       >
-        <h1 className="text-4xl md:text-5xl font-bold p-2 mb-4 bg-gradient-to-r from-gray-800 to-gray-400 dark:from-gray-100 to-gray-200 bg-clip-text text-transparent">
+        <h1 className="text-4xl md:text-5xl font-bold p-2 mb-4 bg-gradient-to-r from-gray-800 to-gray-400 dark:from-gray-100 to-gray-300 bg-clip-text text-transparent">
           Let&apos;s work together!
         </h1>
         <p className="text-gray-600 dark:text-gray-400 mb-8 mt-4">
