@@ -5,27 +5,26 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
+// ✅ Define reusable type
+type PageProps = {
+  params: {
+    slug: string;
+  };
+};
+
+// ✅ Static paths for SSG
 export async function generateStaticParams() {
   const posts = await getBlogPosts();
   return posts.map((post) => ({ slug: post.slug }));
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: {
-    slug: string;
-  };
-}): Promise<Metadata | undefined> {
-  let post = await getPost(params.slug);
+// ✅ Metadata generation with shared type
+export async function generateMetadata({ params }: PageProps): Promise<Metadata | undefined> {
+  const post = await getPost(params.slug);
+  if (!post) return;
 
-  let {
-    title,
-    publishedAt: publishedTime,
-    summary: description,
-    image,
-  } = post.metadata;
-  let ogImage = image ? `${DATA.url}${image}` : `${DATA.url}/og?title=${title}`;
+  const { title, publishedAt: publishedTime, summary: description, image } = post.metadata;
+  const ogImage = image ? `${DATA.url}${image}` : `${DATA.url}/og?title=${title}`;
 
   return {
     title,
@@ -36,11 +35,7 @@ export async function generateMetadata({
       type: "article",
       publishedTime,
       url: `${DATA.url}/blog/${post.slug}`,
-      images: [
-        {
-          url: ogImage,
-        },
-      ],
+      images: [{ url: ogImage }],
     },
     twitter: {
       card: "summary_large_image",
@@ -51,17 +46,11 @@ export async function generateMetadata({
   };
 }
 
-export default async function Blog({
-  params,
-}: {
-  params: {
-    slug: string;
-  };
-}) {
+// ✅ Page component with shared type
+export default async function Blog({ params }: PageProps) {
   const post = await getPost(params.slug);
-
   if (!post) return notFound();
-  
+
   const { title, publishedAt, summary, image } = post.metadata;
 
   return (
@@ -99,7 +88,7 @@ export default async function Blog({
       <article
         className="prose dark:prose-invert"
         dangerouslySetInnerHTML={{ __html: post.source }}
-      ></article>
+      />
     </section>
   );
 }
