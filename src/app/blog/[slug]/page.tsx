@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
-// ✅ Define reusable type
+// ✅ Define reusable type for the page params
 type PageProps = {
   params: {
     slug: string;
@@ -19,8 +19,9 @@ export async function generateStaticParams() {
 }
 
 // ✅ Metadata generation with shared type
-export async function generateMetadata({ 
-  params, }:{params:{slug:string};}): Promise<Metadata | undefined> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata | undefined> {
   const post = await getPost(params.slug);
   if (!post) return;
 
@@ -47,16 +48,13 @@ export async function generateMetadata({
   };
 }
 
-
 export default async function Blog({
   params,
-}: {
-  params: { slug: string };
-}) {
+}: PageProps) {
   const post = await getPost(params.slug);
 
   if (!post) return notFound();
-  
+
   const { title, publishedAt, summary, image } = post.metadata;
 
   return (
