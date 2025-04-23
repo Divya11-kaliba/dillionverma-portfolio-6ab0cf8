@@ -1,3 +1,4 @@
+"use client";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -10,6 +11,8 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import Markdown from "react-markdown";
+import { motion, useScroll, useTransform } from "framer-motion";
+
 
 interface Props {
   title: string;
@@ -26,6 +29,9 @@ interface Props {
     href: string;
   }[];
   className?: string;
+  index: number;
+  totalProjects: number;
+
 }
 
 export function ProjectCard({
@@ -39,12 +45,15 @@ export function ProjectCard({
   video,
   links,
   className,
+  index,
+  totalProjects,
+  
 }: Props) {
   return (
-  
+    
     <Card
       className={
-        "flex flex-col overflow-hidden border hover:shadow-lg transition-all duration-300 ease-out h-full " 
+        "flex flex-col overflow-hidden border hover:shadow-lg transition-all duration-300 ease-out h-full w-full"
       }
     >
       <Link
