@@ -19,7 +19,8 @@ export async function generateStaticParams() {
 }
 
 // ✅ Metadata generation with shared type
-export async function generateMetadata({ params }: PageProps): Promise<Metadata | undefined> {
+export async function generateMetadata({ 
+  params, }:{params:{slug:string};}): Promise<Metadata | undefined> {
   const post = await getPost(params.slug);
   if (!post) return;
 
