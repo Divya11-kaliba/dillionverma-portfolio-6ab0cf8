@@ -1,5 +1,5 @@
 import { Icons } from "@/components/icons";
-import { HomeIcon, NotebookIcon } from "lucide-react";
+import { Contact, HomeIcon, NotebookIcon } from "lucide-react";
 
 export const DATA = {
   name: "Dillion Verma",
@@ -10,9 +10,9 @@ export const DATA = {
   description:
     "Software Engineer turned Entrepreneur. I love building things and helping people. Very active on Twitter.",
   summary:
-    "At the end of 2022, I quit my job as a software engineer to go fulltime into building and scaling my own SaaS businesses. In the past, [I pursued a double degree in computer science and business](/#education), [interned at big tech companies in Silicon Valley](https://www.youtube.com/watch?v=d-LJ2e5qKdE), and [competed in over 21 hackathons for fun](/#hackathons). I also had the pleasure of being a part of the first ever in-person cohort of buildspace called [buildspace sf1](https://buildspace.so/sf1).",
+    "In late 2022, I left my software engineering job to focus on building and scaling my own SaaS businesses. Previously, [I earned a dual degree in computer science and business](/#education), [interned at major tech companies in Silicon Valley](https://www.youtube.com/watch?v=d-LJ2e5qKdE), and [competed in 21+ hackathons](/#hackathons). I also part of the first in-person [Buildspace SF1](https://buildspace.so/sf1) cohor.",
   avatarUrl: "/me.png",
-  skills: [
+    skills: [
     "React",
     "Next.js",
     "Typescript",
@@ -28,17 +28,24 @@ export const DATA = {
   skillUrl:[
     "/react logo.png",
     "/next js.png",
-    "/node js.png",
     "/typescript.png",
-    "/python.jpeg",
+    "/node js.png",    
+    "/Python.png",
+    "/Go.png",
+    "/PostgresSQL.png",
+    "/Docker.png",
+    "/Kubernetes.png",
+    "/Java.png",
+    "/C++.png",
   ],
   navbar: [
     { href: "/", icon: HomeIcon, label: "Home" },
-    { href: "/blog", icon: NotebookIcon, label: "Blog" },
+  
   ],
   contact: {
     email: "hello@example.com",
     tel: "+123456789",
+    address:"Warne Park Street Pine,\n FL 33157, New York",
     social: {
       GitHub: {
         name: "GitHub",
@@ -159,6 +166,7 @@ export const DATA = {
       logoUrl: "/buildspace.jpg",
       start: "2023",
       end: "2024",
+      badges: ["Online Bootcamp", "Web3", "AI"],
     },
     {
       school: "University of Waterloo",
@@ -167,6 +175,7 @@ export const DATA = {
       logoUrl: "/waterloo.png",
       start: "2016",
       end: "2021",
+      badges: ["Honors", "Co-op Program"],
     },
     {
       school: "Wilfrid Laurier University",
@@ -175,6 +184,7 @@ export const DATA = {
       logoUrl: "/laurier.png",
       start: "2016",
       end: "2021",
+      badges: ["Finance", "Marketing", "Entrepreneurship"],
     },
     {
       school: "International Baccalaureate",
@@ -183,10 +193,12 @@ export const DATA = {
       logoUrl: "/ib.png",
       start: "2012",
       end: "2016",
+      badges: ["Math HL", "Physics HL", "TOK"],
     },
   ],
   projects: [
     {
+      id:1,
       title: "Chat Collect",
       href: "https://chatcollect.com",
       dates: "Jan 2024 - Feb 2024",
@@ -215,6 +227,7 @@ export const DATA = {
         "https://pub-83c5db439b40468498f97946200806f7.r2.dev/chat-collect.mp4",
     },
     {
+      id:2,
       title: "Magic UI",
       href: "https://magicui.design",
       dates: "June 2023 - Present",
@@ -247,6 +260,7 @@ export const DATA = {
       video: "https://cdn.magicui.design/bento-grid.mp4",
     },
     {
+      id:3,
       title: "llm.report",
       href: "https://llm.report",
       dates: "April 2023 - September 2023",
@@ -280,6 +294,7 @@ export const DATA = {
       video: "https://cdn.llm.report/openai-demo.mp4",
     },
     {
+      id:4,
       title: "Automatic Chat",
       href: "https://automatic.chat",
       dates: "April 2023 - March 2024",
@@ -692,6 +707,74 @@ export const DATA = {
           href: "https://github.com/UWPortalSDK/crowmark",
         },
       ],
+    },
+  ],
+  certifications: [
+    {
+      title: "Machine Learning Certificate",
+      issuer: "Coursera (Stanford)",
+      date: "Jan 2024",
+      description:
+        "Completed ML course covering regression, neural networks, and SVMs.",
+      imageUrl:
+        "/certificate 1.jpg",
+    },
+    {
+      title: "AWS Certified Developer",
+      issuer: "Amazon Web Services",
+      date: "Dec 2023",
+      description: "Certified in AWS cloud services and deployment strategies.",
+      imageUrl:
+        "/certificate 2.jpg",
+    },
+    {
+      title: "Data Science Specialization",
+      issuer: "Johns Hopkins University (Coursera)",
+      date: "Feb 2024",
+      description:
+        "Completed a comprehensive data science course covering data analysis, visualization, and machine learning.",
+      imageUrl:
+        "/certificate 3.jpg",
+    },
+    {
+      title: "Google Cloud Associate Engineer",
+      issuer: "Google Cloud",
+      date: "Nov 2023",
+      description:
+        "Certified in managing and deploying applications on Google Cloud infrastructure.",
+      imageUrl:
+        "/certificate 4.jpg",
+    },
+  ],
+  
+  achievements: [
+    {
+      title: "Winner - Hack The North 2023",
+      date: "September 2023",
+      description: "Developed a real-time AI-driven event recommendation system that won 1st place among 500+ teams.",
+      eventUrl: "https://hackthenorth.com",
+      awardBadge: "/hack-the-north.png",
+    },
+    {
+      title: "Top 10 Finalist - ETH Waterloo",
+      date: "October 2022",
+      description: "Built a blockchain-based trustless medical prescription system to prevent overprescription.",
+      eventUrl: "https://ethwaterloo.com",
+      awardBadge: "/eth-waterloo.png",
+    },
+    {
+      title: "Best AI Project - Global AI Hackathon",
+      date: "June 2021",
+      description: "Developed a facial recognition system that dynamically adjusts game difficulty based on player emotions.",
+      eventUrl: "https://aihackathon.com",
+      awardBadge: "/ai-hackathon.png",
+    },
+    {
+      title: "1st Place - Google Solution Challenge",
+      date: "May 2023",
+      description: "Created an AI-driven chatbot to provide mental health support for students.",
+      eventUrl: "https://developers.google.com/community/gdsc-solution-challenge",
+      awardBadge: "/google-solution-challenge.png",
     },
   ],
 } as const;

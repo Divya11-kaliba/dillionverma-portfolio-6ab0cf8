@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+
 import Link from "next/link";
 import { Dock, DockIcon } from "@/components/magicui/dock";
 import { ModeToggle } from "@/components/mode-toggle";
@@ -10,7 +10,6 @@ import { Separator } from "@/components/ui/separator";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { DATA } from "@/data/resume";
 import { cn } from "@/lib/utils";
-import { DotPattern } from "@/components/magicui/dot-pattern";
 
 
 const Navbar = () => {
@@ -26,7 +25,7 @@ const Navbar = () => {
 
   return (
     <>
-      <motion.nav
+      {/* <motion.nav
   initial={{ y: -50, opacity: 0 }}
   animate={{ y: 0, opacity: 1 }}
   transition={{ duration: 0.6 }}
@@ -34,7 +33,7 @@ const Navbar = () => {
     isScrolled ? "shadow-md dark:bg-gray-900/80" : "bg-transparent"
   }`}
 >
-  {/* Logo */}
+  {/* Logo
   <Link href="/" className="text-3xl font-bold text-gray-900 dark:text-white">
   <div className="relative">
   <div className="absolute inset-0 w-full flex items-center justify-center">
@@ -42,9 +41,9 @@ const Navbar = () => {
   </div>
   <span className="relative z-10">{DATA.name}</span>
   </div>
-  </Link>
+  </Link> */}
 
-  {/* Navigation Links - Spread Across Entire Screen */}
+  {/* Navigation Links - Spread Across Entire Screen 
   <div className="flex space-x-12 text-lg ml-auto">
     {DATA.navbar.map((item) => (
       <Link
@@ -56,7 +55,7 @@ const Navbar = () => {
       </Link>
     ))}
   </div>
-</motion.nav>
+</motion.nav> */}
 
 
       {/* Bottom Dock Navigation (Restored to Original) */}
