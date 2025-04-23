@@ -47,11 +47,16 @@ export async function generateMetadata({
   };
 }
 
-// ✅ Page component with shared type
-export default async function Blog({ params }: PageProps) {
-  const post = await getPost(params.slug);
-  if (!post) return notFound();
 
+export default async function Blog({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  const post = await getPost(params.slug);
+
+  if (!post) return notFound();
+  
   const { title, publishedAt, summary, image } = post.metadata;
 
   return (
@@ -89,7 +94,7 @@ export default async function Blog({ params }: PageProps) {
       <article
         className="prose dark:prose-invert"
         dangerouslySetInnerHTML={{ __html: post.source }}
-      />
+      ></article>
     </section>
   );
 }
