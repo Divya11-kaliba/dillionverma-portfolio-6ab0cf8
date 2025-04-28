@@ -10,7 +10,7 @@ import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons"
 import { EmblaPluginType } from "embla-carousel"
 
 
-type CarouselApi = UseEmblaCarouselType[1]
+type simpleCarouselApi = UseEmblaCarouselType[1]
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>
 type CarouselOptions = UseCarouselParameters[0]
 type CarouselPlugin = UseCarouselParameters[1]
@@ -19,7 +19,7 @@ type CarouselProps = {
   opts?: CarouselOptions
   plugins?:CarouselPlugin
   orientation?: "horizontal" | "vertical"
-  setApi1?: (api1: CarouselApi) => void
+  setApi1?: (api1: simpleCarouselApi) => void
 }
 
 type CarouselContextProps = {
@@ -69,7 +69,7 @@ const Carousel = React.forwardRef<
     const [canScrollPrev, setCanScrollPrev] = React.useState(false)
     const [canScrollNext, setCanScrollNext] = React.useState(false)
 
-    const onSelect = React.useCallback((api1: CarouselApi) => {
+    const onSelect = React.useCallback((api1: simpleCarouselApi) => {
       if (!api1) {
         return
       }
@@ -254,7 +254,7 @@ const CarouselNext = React.forwardRef<
 CarouselNext.displayName = "CarouselNext"
 
 export {
-  type CarouselApi,
+  type simpleCarouselApi ,
   Carousel,
   CarouselContent,
   CarouselItem,

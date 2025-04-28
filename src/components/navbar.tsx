@@ -59,8 +59,8 @@ const Navbar = () => {
 
 
       {/* Bottom Dock Navigation (Restored to Original) */}
-      <div className="pointer-events-none fixed inset-x-0 bottom-4 z-30 flex items-center justify-center">
-        <Dock className="z-50 pointer-events-auto relative mx-auto flex min-h-[60px] h-16 w-auto max-w-md items-center px-4 bg-white/80 backdrop-blur-md shadow-lg dark:bg-gray-900/80 dark:shadow-gray-800 rounded-full">
+      <div className="pointer-events-none fixed inset-x-2 xs:inset-x-4 sm:inset-x-6 bottom-2 xs:bottom-3 sm:bottom-4 z-30 flex items-center justify-center">
+        <Dock className="z-50 pointer-events-auto relative mx-auto flex xs:min-h-[55px] sm:min-h-[60px] h-14 xs:h-15 sm:h-16 w-[95%] xs:w-auto max-w-md items-center px-2 xs:px-3 sm:px-4 bg-white/80 backdrop-blur-md shadow-lg dark:bg-gray-900/80 dark:shadow-gray-800 rounded-full">
           {DATA.navbar.map((item) => (
             <DockIcon key={item.href}>
               <Tooltip>

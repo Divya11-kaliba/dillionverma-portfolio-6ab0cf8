@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useEffect, useRef, useState, useMemo } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { HackathonCard } from "@/components/hackathon-card";
 import BlurFade from "@/components/magicui/blur-fade";
@@ -27,7 +27,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/simple-carousel";
-import { type CarouselApi } from "@/components/ui/simple-carousel";
+import { type simpleCarouselApi } from "@/components/ui/simple-carousel";
 import { Separator } from "@/components/ui/separator";
 import Autoplay from "embla-carousel-autoplay";
 import Fade from "embla-carousel-fade";
@@ -41,6 +41,7 @@ import {
   FadeCarouselDots,
   type FadeCarouselApi,
 } from "@/components/ui/FadeCarousel";
+import { EmblaCarouselType } from "embla-carousel";
 
 const BLUR_FADE_DELAY = 0.4;
 
@@ -90,28 +91,90 @@ export default function Page() {
     }
   };
 
-  const [isCardExpanded, setIsCardExpanded] = useState(false);
-  const [emblaApi, setEmblaApi] = useState<CarouselApi | null>(null);
 
-  const autoplayPlugin = useRef(
+  const [isCardExpanded, setIsCardExpanded] = useState(false);
+  const [workCarouselApi, setWorkCarouselApi] = useState<simpleCarouselApi | null>(null);
+
+  // Ref for the Autoplay plugin specific to the Work section
+  const workAutoplayPlugin = useRef(
     Autoplay({
       delay: 1700,
       stopOnInteraction: false,
-      stopOnMouseEnter: true,
+      stopOnMouseEnter: false, // ** Important: Disable built-in hover stop **
     })
   );
 
-  
-  // Control autoplay based on ResumeCard state
+  // Callback passed to ResumeCard to notify parent of modal state change
+  const handleExpandChange = useCallback((expanded: boolean) => {
+    setIsCardExpanded(expanded);
+  }, []); // useCallback ensures stable reference
+
+  // Effect to control autoplay based *primarily* on modal state
   useEffect(() => {
-    if (!autoplayPlugin.current) return;
+    const autoplay = workAutoplayPlugin.current;
+    if (!autoplay) return;
 
     if (isCardExpanded) {
-      autoplayPlugin.current.stop(); // ✅ Now this will actually stop it
+      console.log("Modal Opened: Stopping Work Autoplay");
+      autoplay.stop(); // Stop immediately when modal opens
     } else {
-      autoplayPlugin.current.reset(); // ✅ This will resume autoplay
+      console.log("Modal Closed: Resetting Work Autoplay (will play if not hovered)");
+      // Resume playback when modal closes, unless mouse is still hovering (handled by mouseleave)
+      // Using reset() is safer to ensure it restarts correctly
+      autoplay.reset();
     }
-  }, [isCardExpanded]);
+  }, [isCardExpanded]); // Re-run only when modal state changes
+
+  // --- Manual Hover Handlers for Work Carousel ---
+  const handleWorkMouseEnter = () => {
+    // Only stop for hover if no card modal is expanded
+    if (!isCardExpanded && workAutoplayPlugin.current) {
+      console.log("Work Hover Enter (No Modal): Stopping Autoplay");
+      workAutoplayPlugin.current.stop();
+    }
+  };
+
+  const handleWorkMouseLeave = () => {
+    // Only resume from hover if no card modal is expanded
+    if (!isCardExpanded && workAutoplayPlugin.current) {
+      console.log("Work Hover Leave (No Modal): Resetting Autoplay");
+      // Use reset() to ensure it starts playing again cleanly after hover
+      workAutoplayPlugin.current.reset();
+    }
+  };
+  // const autoplayPlugin = useRef(
+  //   Autoplay({
+  //     delay: 1700,
+  //     stopOnInteraction: false,
+  //     stopOnMouseEnter: true,
+  //   }),
+  // )
+
+  // // Track carousel API
+  // const [api1, setApi1] = useState<simpleCarouselApi | null>(null)
+
+  // // Track if any card is expanded
+  // const [expandedCardCount, setExpandedCardCount] = useState(0)
+
+  // // Handle card expansion state change
+  // const handleCardExpandChange = (expanded: boolean) => {
+  //   // Increment or decrement the count based on whether a card is being expanded or collapsed
+  //   setExpandedCardCount((prev) => (expanded ? prev + 1 : Math.max(0, prev - 1)))
+  // }
+
+  // // Control autoplay based on card expansion state
+  // useEffect(() => {
+  //   if (!autoplayPlugin.current) return
+  
+  //   if (expandedCardCount > 0) {
+  //     autoplayPlugin.current.stop()
+  //     console.log("Autoplay stopped because card opened")
+  //   } else {
+  //     autoplayPlugin.current.reset()
+  //     console.log("Autoplay resumed because card closed")
+  //   }
+  // }, [expandedCardCount])
+  
 
   const [api, setApi] = useState<FadeCarouselApi>();
   const [current, setCurrent] = useState(0);
@@ -131,8 +194,13 @@ export default function Page() {
     };
   }, [api]);
 
+  function setEmblaApi(api: EmblaCarouselType | undefined): void {
+    throw new Error("Function not implemented.");
+  }
+
+
   return (
-    <main className="flex flex-col min-h-[130dvh] space-y-12 ">
+    <main className="flex min-h-screen flex-col items-center p-4 md:p-8 overflow-x-hidden w-full">
       {/*---------------------------------------------------Hero Section, About Section, Avatar section-----------------------------------------------*/}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6  md:gap-10  lg:gap-20 mt-2 md:mt-4 px-4 sm:px-6 md:px-12">
         {/* Left Column: Hero and About Section */}
@@ -185,7 +253,7 @@ export default function Page() {
         <div className="flex flex-col space-y-10 justify-center items-center relative order-1 lg:order-2 ">
           {/* Background "HI" Animated Text */}
           <motion.h1
-            className="absolute text-[180px] xs:text-[220px] sm:text-[280px] md:text-[280px] lg:text-[340px] xl:text-[380px] font-extrabold select-none transition-opacity duration-500 opacity-10 hover:opacity-30 text-transparent shadow-lg shadow-gray-400/50 dark:shadow-gray-800/50 hidden sm:flex"
+            className="absolute text-[180px] xs:text-[220px] sm:text-[280px] md:text-[280px] lg:text-[340px] xl:text-[380px] font-extrabold select-none transition-opacity duration-500 opacity-10 hover:opacity-30 text-transparent shadow-lg shadow-gray-400/50 dark:shadow-gray-800/50 hidden md:flex"
             initial={{ opacity: 0.1, scale: 1 }}
             animate={{ opacity: [0.1, 0.3, 0.1], scale: [1, 1.05, 1] }}
             transition={{
@@ -266,18 +334,23 @@ export default function Page() {
           <div className=" relative overflow-hidden ">
             <Carousel
               className="w-full max-w-[2400px] p-2 sm:p-2 "
-              plugins={[autoplayPlugin.current]}
-              setApi1={setEmblaApi} // Pass as array element
+              // plugins={[autoplayPlugin.current]}
               // onMouseEnter={() => {
-              //   if (!isCardExpanded && autoplayPlugin.current) {
-              //     autoplayPlugin.current.stop();
+              //   if (expandedCardCount === 0) {
+              //     autoplayPlugin.current?.stop()
+              //     console.log("Autoplay stopped by mouse hover")
               //   }
               // }}
               // onMouseLeave={() => {
-              //   if (!isCardExpanded && autoplayPlugin.current) {
-              //     autoplayPlugin.current.play();
+              //   if (expandedCardCount === 0) {
+              //     autoplayPlugin.current?.reset()
+              //     console.log("Autoplay resumed by mouse leave")
               //   }
               // }}
+            plugins={[workAutoplayPlugin.current]} // Pass the plugin instance
+            setApi1={setWorkCarouselApi}          // Optional: get API
+            onMouseEnter={handleWorkMouseEnter} // Manual hover enter
+            onMouseLeave={handleWorkMouseLeave}
             >
               {/* Left Arrow */}
               <CarouselPrevious className=" hidden xs:flex absolute -left-0  top-1/2 transform-translate-y-1/2 z-50 bg-gray-300 dark:bg-gray-800 text-gray-900 dark:text-white p-2 sm:p-4 rounded-full border-foreground  hover:bg-gray-400 dark:hover:bg-gray-700 transition" />
@@ -303,7 +376,7 @@ export default function Page() {
                         period={`${work.start} - ${work.end ?? "Present"}`}
                         description={work.description}
                         showExpand={true}
-                        onExpandChange={setIsCardExpanded}
+                        // onExpandChange={handleExpandChange}
                       />
                     </CarouselItem>
                   ))}
@@ -669,9 +742,9 @@ export default function Page() {
       </section>
       {/*---------------------------------------------------------------------  Contact Section ------------------------------------------------------------------------- */}
       <section id="contact" className="py-6 sm:py-8 md:py-12 w-full">
-        <div className="flex flex-col items-center justify-center gap-2 xs:gap-3 sm:gap-4 px-2 xs:px-3 sm:px-6 md:px-8 text-center w-full py-4 xs:py-6 sm:py-8 md:py-12">
+        <div className="flex flex-col items-center justify-center gap-2 xs:gap-3 sm:gap-4 px-1 xs:px-2 sm:px-8 text-center w-full py-4 xs:py-6 sm:py-8 md:py-12">
           <BlurFade delay={BLUR_FADE_DELAY * 2}>
-            <div className="space-y-1 xs:space-y-2 sm:space-y-3 md:space-y-4 flex flex-col items-center justify-center text-center w-full px-4 xs:px-6 sm:px-8 md:px-10">
+            <div className="space-y-1 xs:space-y-2 sm:space-y-3 md:space-y-4 flex flex-col items-center justify-center text-center w-full px-1 xs:px-2 sm:px-8 md:px-10">
               <div className="w-full flex justify-center items-center">
                 <TypewriterEffect
                   words={[
@@ -693,7 +766,7 @@ export default function Page() {
                   ]}
                 />
               </div>
-              <p className="mx-auto max-w-lg text-sm xs:text-base sm:text-base md:text-xl text-muted-foreground px-8 xs:px-10 sm:px-12 md:px-16 text-center">
+              <p className="text-sm sm:text-base md:text-lg text-gray-700 dark:text-gray-100 max-w-[95%] sm:max-w-[65%] md:max-w-7xl mx-auto px-6 sm:px-8 py-2">
                 Want to chat? Just shoot me a dm{" "}
                 <Link
                   href={DATA.contact.social.X.url}
@@ -715,16 +788,16 @@ export default function Page() {
                   </div>
 
                   {/* Contact Information Section */}
-                  <div className="space-y-3 xs:space-y-4 sm:space-y-5 md:space-y-6 w-[90%] xs:w-[90%] sm:w-[85%] md:w-[80%] max-w-4xl mx-auto py-2 xs:py-3 sm:py-4 md:py-6">
+                  <div className=" w-[90%] xs:w-[90%] sm:w-[85%] md:w-[80%] max-w-5xl mx-auto py-2 xs:py-3 sm:py-4 md:py-6">
                     <motion.div
                       initial={{ y: 30, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
                       transition={{ duration: 2, ease: "easeOut" }}
-                      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 xs:gap-8 sm:gap-10 md:gap-6 lg:gap-4 w-full place-items-center"
+                      className="grid grid-cols-1 lg:grid-cols-3 gap-6 w-full place-items-center"
                     >
                       {/* Phone */}
                       <motion.div
-                        className="flex flex-col items-center text-center gap-2 xs:gap-3 w-full max-w-[250px]"
+                        className="flex flex-col items-center text-center gap-2 xs:gap-3 w-full max-w-[250px] h-full"
                         whileHover={{ scale: 1.02 }}
                         transition={{
                           type: "spring",
@@ -743,7 +816,7 @@ export default function Page() {
                       </motion.div>
                       {/* Email */}
                       <motion.div
-                        className="flex flex-col items-center text-center gap-2 xs:gap-3 w-full max-w-[250px]"
+                        className="flex flex-col items-center text-center gap-2 xs:gap-3 w-full max-w-[250px] h-full"
                         whileHover={{ scale: 1.02 }}
                         transition={{
                           type: "spring",
@@ -762,7 +835,7 @@ export default function Page() {
                       </motion.div>
                       {/* Address */}
                       <motion.div
-                        className="flex flex-col items-center text-center gap-2 xs:gap-3 w-full max-w-[250px] md:col-span-2 lg:col-span-1"
+                        className="flex flex-col items-center text-center gap-2 xs:gap-3 w-full max-w-[250px] h-full lg:col-span-1"
                         whileHover={{ scale: 1.02 }}
                         transition={{
                           type: "spring",
@@ -795,7 +868,7 @@ export default function Page() {
       </section>
 
       <button
-        className="fixed bottom-4 right-4 bg-gray-600 p-4 rounded-full border-foreground hover:bg-gray-700 transition-colors"
+        className="fixed bottom-4 right-4 bg-gray-600 p-4 rounded-full border-foreground hover:bg-gray-700 transition-colors hidden sm:block"
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       >
         <ArrowUp className="w-6 h-6 text-white" />
