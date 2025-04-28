@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useEffect, useRef, useState, useCallback } from "react";
-import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
+import { motion } from "framer-motion";
 import { HackathonCard } from "@/components/hackathon-card";
 import BlurFade from "@/components/magicui/blur-fade";
 import { TextAnimate } from "@/components/magicui/text-animate";
@@ -28,7 +28,6 @@ import {
   CarouselPrevious,
 } from "@/components/ui/simple-carousel";
 import { type simpleCarouselApi } from "@/components/ui/simple-carousel";
-import { Separator } from "@/components/ui/separator";
 import Autoplay from "embla-carousel-autoplay";
 import Fade from "embla-carousel-fade";
 import CertificateCard from "@/components/certificate-card";
