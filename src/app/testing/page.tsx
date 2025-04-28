@@ -27,7 +27,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/simple-carousel";
-import { type CarouselApi } from "@/components/ui/simple-carousel";
+import { type simpleCarouselApi } from "@/components/ui/simple-carousel";
 import { Separator } from "@/components/ui/separator";
 import Autoplay from "embla-carousel-autoplay";
 import Fade from "embla-carousel-fade";
@@ -91,7 +91,7 @@ export default function Page() {
   };
 
   const [isCardExpanded, setIsCardExpanded] = useState(false);
-  const [emblaApi, setEmblaApi] = useState<CarouselApi | null>(null);
+  const [emblaApi, setEmblaApi] = useState<simpleCarouselApi | null>(null);
 
   const autoplayPlugin = useRef(
     Autoplay({
@@ -303,7 +303,7 @@ export default function Page() {
                         period={`${work.start} - ${work.end ?? "Present"}`}
                         description={work.description}
                         showExpand={true}
-                        onExpandChange={setIsCardExpanded}
+                        // onExpandChange={setIsCardExpanded}
                       />
                     </CarouselItem>
                   ))}
