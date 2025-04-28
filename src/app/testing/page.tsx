@@ -27,7 +27,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/simple-carousel";
-import { type CarouselApi } from "@/components/ui/simple-carousel";
+import { type simpleCarouselApi } from "@/components/ui/simple-carousel";
 import { Separator } from "@/components/ui/separator";
 import Autoplay from "embla-carousel-autoplay";
 import Fade from "embla-carousel-fade";
