@@ -91,7 +91,7 @@ export default function Page() {
   };
 
   const [isCardExpanded, setIsCardExpanded] = useState(false);
-  const [emblaApi, setEmblaApi] = useState<CarouselApi | null>(null);
+  const [emblaApi, setEmblaApi] = useState<simpleCarouselApi | null>(null);
 
   const autoplayPlugin = useRef(
     Autoplay({
@@ -303,7 +303,7 @@ export default function Page() {
                         period={`${work.start} - ${work.end ?? "Present"}`}
                         description={work.description}
                         showExpand={true}
-                        onExpandChange={setIsCardExpanded}
+                        // onExpandChange={setIsCardExpanded}
                       />
                     </CarouselItem>
                   ))}
