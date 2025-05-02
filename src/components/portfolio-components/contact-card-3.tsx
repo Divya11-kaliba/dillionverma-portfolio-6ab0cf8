@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
-import { db } from '../lib/firebase';
+import { db } from '@/lib/firebase';
 import { collection, addDoc } from 'firebase/firestore';
 import Head from 'next/head';
 
@@ -152,7 +152,7 @@ function Contact() {
           <div className="bg-gray-300 dark:bg-gray-900 p-2 sm:p-4 rounded-lg w-full flex justify-center">
             <div
               className="g-recaptcha scale-75 xs:scale-90 sm:scale-100 transform-origin-center "
-              data-sitekey="6LdCAg4rAAAAAKGUQpzYZ7ogauSA4R297Ls8Erxi"
+              data-sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
               data-theme={theme === 'light' ? 'light' : 'dark'}
             ></div>
           </div>
