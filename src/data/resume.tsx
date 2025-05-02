@@ -2,6 +2,7 @@ import { Icons } from "@/components/icons";
 import { Contact, HomeIcon, NotebookIcon } from "lucide-react";
 
 export const DATA = {
+  greeting: "Hi, I'm",
   name: "Dillion Verma",
   initials: "DV",
   url: "https://dillion.io",
@@ -196,6 +197,11 @@ export const DATA = {
       badges: ["Math HL", "Physics HL", "TOK"],
     },
   ],
+  projectSection: {
+    heading: "Check out my latest work",
+    description:
+      "I've worked on a variety of projects, from simple websites to complex web applications.",
+  },
   projects: [
     {
       id:1,
@@ -324,6 +330,10 @@ export const DATA = {
         "https://pub-83c5db439b40468498f97946200806f7.r2.dev/automatic-chat.mp4",
     },
   ],
+  hackathonSection: {
+    heading: "I like building things",
+    description:"During my time in university, I attended {X}+ hackathons. People from around the country would come together and build incredible things in 2–3 days. It was eye-opening to see the endless possibilities brought to life by a group of motivated and passionate individuals.",
+  },
   hackathons: [
     {
       title: "Hack Western 5",
@@ -709,6 +719,9 @@ export const DATA = {
       ],
     },
   ],
+  certificationSection: {
+    heading: "Check out my Certificates",
+  },
   certifications: [
     {
       title: "Machine Learning Certificate",
@@ -746,35 +759,12 @@ export const DATA = {
         "/certificate 4.jpg",
     },
   ],
+  contactSection: {
+    titleWords: ["Get", "in", "Touch"],
+    messageStart: "Want to chat? Just shoot me a dm ",
+    dmLabel: "with a direct question",
+    messageEnd: " and I'll respond whenever I can. I will ignore all soliciting.",
+  },
   
-  achievements: [
-    {
-      title: "Winner - Hack The North 2023",
-      date: "September 2023",
-      description: "Developed a real-time AI-driven event recommendation system that won 1st place among 500+ teams.",
-      eventUrl: "https://hackthenorth.com",
-      awardBadge: "/hack-the-north.png",
-    },
-    {
-      title: "Top 10 Finalist - ETH Waterloo",
-      date: "October 2022",
-      description: "Built a blockchain-based trustless medical prescription system to prevent overprescription.",
-      eventUrl: "https://ethwaterloo.com",
-      awardBadge: "/eth-waterloo.png",
-    },
-    {
-      title: "Best AI Project - Global AI Hackathon",
-      date: "June 2021",
-      description: "Developed a facial recognition system that dynamically adjusts game difficulty based on player emotions.",
-      eventUrl: "https://aihackathon.com",
-      awardBadge: "/ai-hackathon.png",
-    },
-    {
-      title: "1st Place - Google Solution Challenge",
-      date: "May 2023",
-      description: "Created an AI-driven chatbot to provide mental health support for students.",
-      eventUrl: "https://developers.google.com/community/gdsc-solution-challenge",
-      awardBadge: "/google-solution-challenge.png",
-    },
-  ],
+  
 } as const;

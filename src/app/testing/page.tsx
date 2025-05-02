@@ -1,24 +1,23 @@
 "use client";
 
 import React from "react";
-import { useEffect, useRef, useState, useMemo } from "react";
-import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
-import { HackathonCard } from "@/components/hackathon-card";
+import { useEffect, useRef, useState} from "react";
+import { motion } from "framer-motion";
+import { HackathonCard } from "@/components/portfolio-components/hackathon-card-3";
 import BlurFade from "@/components/magicui/blur-fade";
 import { TextAnimate } from "@/components/magicui/text-animate";
-import { cn } from "@/lib/utils";
 import { ShinyButton } from "@/components/magicui/shiny-button";
-import { ProjectCard } from "@/components/project-card";
-import { ResumeCard } from "@/components/resume-card";
+import { ProjectCard } from "@/components/portfolio-components/project-card-3";
+import { ResumeCard } from "@/components/portfolio-components/resume-card-3";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DATA } from "@/data/resume";
 import Link from "next/link";
 import Markdown from "react-markdown";
 import { MagicCard } from "@/components/magicui/magic-card";
-import Contact from "@/components/contact";
+import Contact from "@/components/portfolio-components/contact-card-3";
 import { TypewriterEffect } from "@/components/ui/typewriter-effect";
 import { ArrowUp, ChevronDown, ChevronUp } from "lucide-react";
-import { EducationCard } from "@/components/eduaction-card";
+import { EducationCard } from "@/components/portfolio-components/eduaction-card-3";
 import { Phone, Mail, MapPin } from "lucide-react";
 import {
   Carousel,
@@ -26,12 +25,11 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/simple-carousel";
-import { type simpleCarouselApi } from "@/components/ui/simple-carousel";
-import { Separator } from "@/components/ui/separator";
+} from "@/components/ui/carousel";
+import { type CarouselApi } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import Fade from "embla-carousel-fade";
-import CertificateCard from "@/components/certificate-card";
+import CertificateCard from "@/components/portfolio-components/certificate-card-3";
 import {
   FadeCarousel,
   FadeCarouselContent,
@@ -90,28 +88,23 @@ export default function Page() {
     }
   };
 
-  const [isCardExpanded, setIsCardExpanded] = useState(false);
-  const [emblaApi, setEmblaApi] = useState<simpleCarouselApi | null>(null);
-
   const autoplayPlugin = useRef(
     Autoplay({
-      delay: 1700,
+      delay: 3000,
       stopOnInteraction: false,
-      stopOnMouseEnter: true,
+      stopOnMouseEnter: false,
     })
   );
 
-  
-  // Control autoplay based on ResumeCard state
-  useEffect(() => {
-    if (!autoplayPlugin.current) return;
+  // Capture Embla instance
+  const [emblaApi, setEmblaApi] = useState<CarouselApi>();
 
-    if (isCardExpanded) {
-      autoplayPlugin.current.stop(); // ✅ Now this will actually stop it
-    } else {
-      autoplayPlugin.current.reset(); // ✅ This will resume autoplay
-    }
-  }, [isCardExpanded]);
+  // Pause/resume handler for ResumeCard expansion
+  const handleToggleExpand = (expanded: boolean) => {
+    if (!emblaApi) return;
+    const { autoplay } = emblaApi.plugins();
+    expanded ? autoplay.stop() : autoplay.play();
+  };
 
   const [api, setApi] = useState<FadeCarouselApi>();
   const [current, setCurrent] = useState(0);
@@ -142,7 +135,7 @@ export default function Page() {
             <div className="mx-auto w-full max-w-4xl space-y-6">
               <div className="flex flex-col md:flex-row items-center justify-between gap-6">
                 {/* Text Section */}
-                <div className="flex flex-col flex-1 space-y-4 text-center md:text-left">
+                <div className="flex flex-col flex-1 space-y-4 text-center lg:text-left">
                   <TextAnimate
                     animation="blurIn"
                     as="h1"
@@ -168,7 +161,7 @@ export default function Page() {
 
           {/* About Section */}
           <section id="about" className="mt-4 md:mt-6">
-            <div className="about-button m-2 sm:justify-center">
+            <div className="about-button m-2 flex justify-center lg:justify-start">
               <ShinyButton>
                 <h2 className="text-xl sm:text-2xl font-bold">About</h2>
               </ShinyButton>
@@ -185,7 +178,7 @@ export default function Page() {
         <div className="flex flex-col space-y-10 justify-center items-center relative order-1 lg:order-2 ">
           {/* Background "HI" Animated Text */}
           <motion.h1
-            className="absolute text-[180px] xs:text-[220px] sm:text-[280px] md:text-[280px] lg:text-[340px] xl:text-[380px] font-extrabold select-none transition-opacity duration-500 opacity-10 hover:opacity-30 text-transparent shadow-lg shadow-gray-400/50 dark:shadow-gray-800/50 hidden sm:flex"
+            className="absolute text-[180px] xs:text-[220px] sm:text-[280px] md:text-[280px] lg:text-[340px] xl:text-[380px] font-extrabold select-none transition-opacity duration-500 opacity-10 hover:opacity-30 text-transparent shadow-lg shadow-gray-400/50 dark:shadow-gray-800/50 hidden md:flex"
             initial={{ opacity: 0.1, scale: 1 }}
             animate={{ opacity: [0.1, 0.3, 0.1], scale: [1, 1.05, 1] }}
             transition={{
@@ -195,7 +188,7 @@ export default function Page() {
             }}
             style={{
               top: "3%",
-              left: "-47%",
+              left: "-51%",
               transform: "-translate-x-1/2",
               WebkitTextStroke: "3px rgba(94, 94, 94, 0.88)",
             }}
@@ -203,8 +196,8 @@ export default function Page() {
             HI
           </motion.h1>
           {/* Avatar Section */}
-          <div className="relative flex items-center justify-center mt-0 xs:mt-[-80px] sm:mt-[-100px] md:mt-[-120px] lg:mt-[-150px]">
-            <Avatar className="relative w-[280px] h-[340px] xs:w-[320px] xs:h-[380px] sm:w-[360px] sm:h-[420px] md:w-[400px] md:h-[460px] lg:w-[460px] lg:h-[500px] overflow-hidden rounded-xl border-4 border-white dark:border-gray-800 shadow-lg rotate-6 hover:rotate-0  hover:border-gray-700 dark:hover:border-6 dark:hover:border-blue-600 transition-transform duration-500 ease-in-out">
+          <div className="relative flex items-center justify-center mt-0 xs:mt-[-30px] sm:mt-[-100px] md:mt-[-120px] lg:mt-[-150px]">
+            <Avatar className="relative w-[280px] h-[340px] xs:w-[320px] xs:h-[380px] sm:w-[360px] sm:h-[420px] md:w-[400px] md:h-[460px] lg:w-[460px] lg:h-[500px] overflow-hidden rounded-full sm:rounded-xl  border-4 border-white dark:border-gray-800 shadow-lg rotate-6 hover:rotate-0  hover:border-gray-700 dark:hover:border-6 dark:hover:border-blue-600 transition-transform duration-500 ease-in-out">
               <AvatarImage
                 alt={DATA.name}
                 src={DATA.avatarUrl}
@@ -216,8 +209,8 @@ export default function Page() {
         </div>
       </div>
 
-      {/* -----------------------------------------------------------Skill Section -------------------------------------------------------------------*/}
-
+{/* -----------------------------------------------------------Skill Section -------------------------------------------------------------------*/}
+      {DATA?.skills?.length > 0 ? (
       <section id="skills">
         <div className="flex min-h-0 flex-col gap-y-5 ">
           <div className="skill-button  text-center m-2">
@@ -251,14 +244,14 @@ export default function Page() {
           </div>
         </div>
       </section>
-
+       ) : null}
       {/*------------------------------------------------------------ workSection -------------------------------------------------------------------- */}
-
+      {DATA?.work?.length > 0 ? (
       <section id="work" className="py-8 sm:py-12 w-full">
         <div className="relative flex min-h-0 flex-col gap-y-3 bg-opacity-60 backdrop-blur-md p-5 sm:p-8 rounded-xl shadow-lg shadow-gray-600/50 dark:shadow-gray-600/50">
           <div className="work-button  text-center m-2">
             <ShinyButton>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl  font-bold">
+              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold">
                 Work Experience
               </h2>
             </ShinyButton>
@@ -266,18 +259,9 @@ export default function Page() {
           <div className=" relative overflow-hidden ">
             <Carousel
               className="w-full max-w-[2400px] p-2 sm:p-2 "
+              setApi={setEmblaApi}
               plugins={[autoplayPlugin.current]}
-              setApi1={setEmblaApi} // Pass as array element
-              // onMouseEnter={() => {
-              //   if (!isCardExpanded && autoplayPlugin.current) {
-              //     autoplayPlugin.current.stop();
-              //   }
-              // }}
-              // onMouseLeave={() => {
-              //   if (!isCardExpanded && autoplayPlugin.current) {
-              //     autoplayPlugin.current.play();
-              //   }
-              // }}
+              opts={{ loop: true }}
             >
               {/* Left Arrow */}
               <CarouselPrevious className=" hidden xs:flex absolute -left-0  top-1/2 transform-translate-y-1/2 z-50 bg-gray-300 dark:bg-gray-800 text-gray-900 dark:text-white p-2 sm:p-4 rounded-full border-foreground  hover:bg-gray-400 dark:hover:bg-gray-700 transition" />
@@ -293,7 +277,7 @@ export default function Page() {
                       }`}
                     >
                       <ResumeCard
-                        className="bg-gray-300 dark:bg-gray-800 text-gray-900 dark:text-white rounded-xl shadow-md p-2 sm:p-3 text-lg font-semibold hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-300"
+                        className="bg-gray-300 dark:bg-gray-800 text-gray-900 dark:text-white h-[280px] sm:h-full rounded-xl shadow-md p-2 sm:p-3 text-lg font-semibold hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-300"
                         logoUrl={work.logoUrl}
                         altText={work.company}
                         title={work.company}
@@ -303,7 +287,7 @@ export default function Page() {
                         period={`${work.start} - ${work.end ?? "Present"}`}
                         description={work.description}
                         showExpand={true}
-                        // onExpandChange={setIsCardExpanded}
+                        onToggleExpand={handleToggleExpand}
                       />
                     </CarouselItem>
                   ))}
@@ -315,44 +299,10 @@ export default function Page() {
           </div>
         </div>
       </section>
-
-      {/*---------------------------------------------------- education section --------------------------------------------------------------------  */}
-
-      {/* <section id="education" className=" w-full">
-  <div className="flex min-h-0 flex-col gap-y-3">
-  <div className="flex justify-center">
-  <div className="education-button  text-center m-2">
-          <ShinyButton>
-            <h2 className="text-2xl font-bold">Education</h2>
-          </ShinyButton>
-        </div>
-    </div>
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 w-full ">
-      {DATA.education.map((education, id) => (
-        <div key={education.school} className="w-full flex ">
-          <MagicCard className="w-full h-fit flex flex-col items-center p-2 rounded-xl ">
-          <ResumeCard
-            href={education.href}
-            logoUrl={education.logoUrl}
-            altText={education.school}
-            title={education.school}
-            subtitle={education.degree}
-            period={`${education.start} - ${education.end}`}
-            className="w-[640px] p-5 flex-grow justify-between bg-gray-300 dark:bg-gray-800"
-          />
-        </MagicCard>
-        </div>
-      ))}
-    </div>
-  </div>
-</section>  */}
-
-      {/*---------------------------------------------------------------------------- education section--------------------------------------------------------------  */}
-      <section
-        id="education"
-        className=" py-6 sm:py-8 md:py-12 w-full"
-        ref={educationSectionRef}
-      >
+      ) : null}
+{/*---------------------------------------------------------------------------- education section--------------------------------------------------------------  */}
+      {DATA?.education?.length > 0 ? (
+      <section id="education" className=" py-6 sm:py-8 md:py-12 w-full" ref={educationSectionRef}>
         <div className="flex min-h-0 flex-col gap-y-3 px-4 sm:px-6 md:px-0 ">
           <div className="flex justify-center">
             <div className="education-button  text-center m-2">
@@ -403,13 +353,14 @@ export default function Page() {
           </BlurFade>
         </div>
       </section>
-
-      {/*----------------------------------------------------------------------- PROJECTS SECTION ------------------------------------------------------------------------ */}
+       ) : null}
+{/*----------------------------------------------------------------------- PROJECTS SECTION ------------------------------------------------------------------------ */}
+{DATA?.projects?.length > 0 ? (
       <section id="projects" className="relative w-full py-8 sm:py-10 ">
         <div className="max-w-6xl mx-auto text-center px-4 sm:px-6 lg:px-8 space-y-6">
           <div className="project-button  text-center m-2">
             <ShinyButton>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl  font-bold">
+              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold">
                 Projects
               </h2>
             </ShinyButton>
@@ -471,13 +422,14 @@ export default function Page() {
           )}
         </BlurFade>
       </section>
-
-      {/*------------------------------------------------------------------- Certificates Section---------------------------------------------------- */}
+       ) : null}
+{/*------------------------------------------------------------------- Certificates Section---------------------------------------------------- */}
+{DATA?.certifications?.length > 0 ? (
       <section id="certificate" className="py-8 sm:py-12 md:py-16">
         <div className="max-w-full mx-auto text-center space-y-4 sm:space-y-6 px-4 sm:px-7 md:px-8">
           <div className="certificate-button  text-center m-2">
             <ShinyButton>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl  font-bold">
+              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold">
                 Certificates
               </h2>
             </ShinyButton>
@@ -525,71 +477,10 @@ export default function Page() {
           </div>
         </div>
       </section>
-
-      {/*------------------------------------------------------------------- Certificates Section---------------------------------------------------- */}
-      {/* <section className="py-16">
-      <div className="max-w-full mx-auto text-center space-y-6">
-      <div className="certificate-button  text-center m-2">
-          <ShinyButton>
-            <h2 className="text-2xl  font-bold">Certificates</h2>
-          </ShinyButton>
-        </div>         
-      <h2 className="text-4xl text-gray-900 dark:text-white font-bold">
-        Check out my Certificates
-      </h2>
-      <div className="relative flex items-center">
-        <Carousel
-        setApi={setApi}
-        opts={{
-          loop: true,
-        }}
-        plugins={[Fade()]} className="relative w-full max-w-6xl mx-auto rounded-xl overflow-hidden shadow-lg"
-        onSelect={() => {
-          if (api) {
-            setCurrentIndex(api.selectedScrollSnap())
-          }
-        }}>
-          <CarouselContent className="transition-opacity duration-1000 ease-in-out">
-            {DATA.certifications.map((cert, index) => (
-              <CarouselItem key={index} className="flex justify-center w-full h-full">
-                <CertificateCard
-            title={cert.title}
-            issuer={cert.issuer}
-            date={cert.date}
-            description={cert.description}
-            imageUrl={cert.imageUrl}
-            className="rounded-xl border border-[#2A2A2A] shadow-md w-full h-full flex flex-col justify-between bg-gray-300 dark:bg-gray-800 p-4"
-          />
-        </CarouselItem>
-      ))}
-    </CarouselContent>
-
-    {/* Navigation Arrows 
-    <div className="flex items-center justify-center space-x-8 mt-8">
-              <CarouselPrevious className="pointer-events-auto -left-2 bg-white/80 p-2 rounded-full shadow-md hover:bg-white transition" />
-              <CarouselNext className="pointer-events-auto -right-2 bg-white/80 p-2 rounded-full shadow-md hover:bg-white transition" />
-          
-            {/* Custom Pagination Dots 
-            <div className="flex justify-center mt-6 space-x-2">
-            {Array.from({ length: totalSlides }).map((_, index) => (
-              <button
-                key={index}
-                onClick={() => api?.scrollTo(index)}
-                className={`h-3 w-3 rounded-full transition-all duration-300 ${
-                  currentIndex === index ? "bg-gray-900 dark:bg-white scale-110" : "bg-gray-300 dark:bg-gray-600"
-                }`}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
-          </div>
-          </div>
-  </Carousel>
-</div>
-</div>
-</section> */}
-
-      {/*------------------------------------------------------------- Hackthons Section -------------------------------------------------------------*/}
-      <section id="hackathons" className="py-6 sm:py-8 md:py-12 w-full">
+       ) : null}
+{/*------------------------------------------------------------- Hackthons Section -------------------------------------------------------------*/}
+{DATA?.hackathons?.length > 0 ? (
+     <section id="hackathons" className="py-6 sm:py-8 md:py-12 w-full">
         <div
           ref={hackathonSectionRef}
           className="space-y-8 sm:space-y-10 md:space-y-12  w-full py-12"
@@ -599,7 +490,7 @@ export default function Page() {
               <div className="space-y-1 sm:space-y-2 md:space-y-3">
                 <div className="hackathon-button  text-center m-2">
                   <ShinyButton>
-                    <h2 className="text-2xl sm:text-3xl md:text-4xl  font-bold">
+                    <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold">
                       Hackathons
                     </h2>
                   </ShinyButton>
@@ -667,7 +558,8 @@ export default function Page() {
           </BlurFade>
         </div>
       </section>
-      {/*---------------------------------------------------------------------  Contact Section ------------------------------------------------------------------------- */}
+       ) : null}
+{/*---------------------------------------------------------------------  Contact Section ------------------------------------------------------------------------- */}
       <section id="contact" className="py-6 sm:py-8 md:py-12 w-full">
         <div className="flex flex-col items-center justify-center gap-2 xs:gap-3 sm:gap-4 px-2 xs:px-3 sm:px-6 md:px-8 text-center w-full py-4 xs:py-6 sm:py-8 md:py-12">
           <BlurFade delay={BLUR_FADE_DELAY * 2}>
@@ -795,11 +687,11 @@ export default function Page() {
       </section>
 
       <button
-        className="fixed bottom-4 right-4 bg-gray-600 p-4 rounded-full border-foreground hover:bg-gray-700 transition-colors"
-        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      >
-        <ArrowUp className="w-6 h-6 text-white" />
-      </button>
+              className="fixed bottom-4 right-4 bg-gray-600 p-4 rounded-full border-foreground hover:bg-gray-700 transition-colors hidden sm:block"
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            >
+              <ArrowUp className="w-6 h-6 text-white" />
+            </button>
     </main>
   );
 }
