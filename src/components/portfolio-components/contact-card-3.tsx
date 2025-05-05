@@ -152,7 +152,7 @@ function Contact() {
           <div className="bg-gray-300 dark:bg-gray-900 p-2 sm:p-4 rounded-lg w-full flex justify-center">
             <div
               className="g-recaptcha scale-75 xs:scale-90 sm:scale-100 transform-origin-center "
-              data-sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+              data-sitekey="6LdCAg4rAAAAAKGUQpzYZ7ogauSA4R297Ls8Erxi"
               data-theme={theme === 'light' ? 'light' : 'dark'}
             ></div>
           </div>
